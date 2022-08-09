@@ -31,7 +31,7 @@ local options = {
         trail = "+",
         tab = "> "
     },
-    shell = "/usr/local/bin/zsh",
+    --shell = "/usr/bin/zsh",
     spell = true,
     spelllang = 'en_us',
     completeopt = {'menu', 'menuone', 'noselect'},
@@ -74,7 +74,7 @@ autocmd(
 -- vim.g.user_emmet_leader_key = ","
 
 -- Gitgutter
-vim.g.gitgutter_git_executable = "/usr/local/bin/git"
+--vim.g.gitgutter_git_executable = "/usr/local/bin/git"
 -- vim.g.gitgutter_git_executable = "/usr/bin/git"
 
 -- Dashboard
@@ -408,6 +408,7 @@ local servers = {
   "terraformls",
   "theme_check",
   "vimls",
+  "intelephense",
 }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
