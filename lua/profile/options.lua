@@ -409,6 +409,10 @@ local servers = {
   "theme_check",
   "vimls",
   "intelephense",
+  "salt_ls",
+  "ansiblels",
+  "puppet",
+  "terraform_lsp",
 }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
