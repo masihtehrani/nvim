@@ -274,20 +274,23 @@ vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles)
 --
 -- LSP settings
 
-local lsp_installer = require('nvim-lsp-installer')
-lsp_installer.on_server_ready(function(server)
-  local opts = {
-        automatic_installation = true, -- automatically detect which servers to install (based on which servers are set up via lspconfig)
-    ui = {
-        icons = {
-            server_installed = "¿",
-            server_pending = "¿",
-            server_uninstalled = "¿"
-        }
-    },
-  }
-  server:setup(opts)
-end)
+--local lsp_installer = require('nvim-lsp-installer')
+--lsp_installer.on_server_ready(function(server)
+--  local opts = {
+--        automatic_installation = true, -- automatically detect which servers to install (based on which servers are set up via lspconfig)
+--    ui = {
+--        icons = {
+--            server_installed = "¿",
+--            server_pending = "¿",
+--            server_uninstalled = "¿"
+--        }
+--    },
+--  }
+--  server:setup(opts)
+--end)
+require("nvim-lsp-installer").setup({
+    automatic_installation = true, -- automatically detect which servers to install (based on which servers are set up via lspconfig)
+})
 
 local lsp_defaults = {
   flags = {
@@ -389,7 +392,7 @@ local servers = {
   "vimls",
   "yamlls",
   "cssls",
-  "dartls",
+  --"dartls",
   "dotls",
   "eslint",
   "glint",
@@ -399,7 +402,7 @@ local servers = {
   "perlpls",
   "phpactor",
   "quick_lint_js",
-  "r_language_server",
+  --"r_language_server",
   "rust_analyzer",
   "solang",
   "solidity_ls",
@@ -410,7 +413,7 @@ local servers = {
   "vimls",
   "intelephense",
   "salt_ls",
-  "ansiblels",
+  --"ansiblels",
   "puppet",
   "terraform_lsp",
 }
