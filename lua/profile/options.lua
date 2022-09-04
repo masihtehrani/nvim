@@ -550,7 +550,7 @@ cmp.setup({
     { name = 'cmdline_history' },
     { 
        name = 'fuzzy_buffer' ,
-       opts = {
+       option = {
           get_bufnrs = function()  
           local bufs = {}
           for _, buf in ipairs(vim.api.nvim_list_bufs()) do
@@ -567,7 +567,7 @@ cmp.setup({
     { name = 'rg' },
     { name = 'zsh' },
     { name = 'cmp-clippy',
-      opts = {
+      option = {
         model = "EleutherAI/gpt-neo-2.7B", -- check code clippy vscode repo for options
         key = "", -- huggingface.co api key
       }
