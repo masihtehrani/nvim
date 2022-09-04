@@ -31,10 +31,10 @@ packer.startup(function()
     use 'glepnir/galaxyline.nvim'
     use 'Avimitin/nerd-galaxyline'
 
-    use {
-        'fatih/vim-go',
-        run = ':GoInstallBinaries',
-    }
+    --use {
+    --    'fatih/vim-go',
+    --    run = ':GoInstallBinaries',
+    --}
 
   use {
       'ekickx/clipboard-image.nvim',
