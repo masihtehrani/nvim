@@ -29,17 +29,6 @@ packer.startup(function()
       "williamboman/mason-lspconfig.nvim",
       "neovim/nvim-lspconfig",
     }
-    use({
-      "glepnir/lspsaga.nvim",
-      branch = "main",
-      config = function()
-          local saga = require("lspsaga")
-  
-          saga.init_lsp_saga({
-              -- your configuration
-          })
-      end,
-  })
   use {
   "folke/trouble.nvim",
   requires = "kyazdani42/nvim-web-devicons",
