@@ -22,6 +22,24 @@ packer.startup(function()
       'romgrk/barbar.nvim',
       requires = {'kyazdani42/nvim-web-devicons'}
     }
+    use { 'mhartington/formatter.nvim' }
+    use 'mfussenegger/nvim-lint'
+    use {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "neovim/nvim-lspconfig",
+    }
+    use({
+      "glepnir/lspsaga.nvim",
+      branch = "main",
+      config = function()
+          local saga = require("lspsaga")
+  
+          saga.init_lsp_saga({
+              -- your configuration
+          })
+      end,
+  })
     use 'Yggdroot/indentLine'
     --use 'tpope/vim-fugitive'
     use  'kdheepak/lazygit.nvim'
