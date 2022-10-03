@@ -24,18 +24,16 @@ packer.startup(function()
     }
     use 'Yggdroot/indentLine'
     use 'tpope/vim-fugitive'
+    use  'kdheepak/lazygit.nvim'
+    use {'akinsho/git-conflict.nvim', tag = "*", config = function()
+      require('git-conflict').setup()
+    end}
     use 'jiangmiao/auto-pairs'
     use 'airblade/vim-gitgutter'
     use 'maxboisvert/vim-simple-complete'
     use 'NLKNguyen/papercolor-theme'
     use 'glepnir/galaxyline.nvim'
     use 'Avimitin/nerd-galaxyline'
-
-    --use {
-    --    'fatih/vim-go',
-    --    run = ':GoInstallBinaries',
-    --}
-
   use {
       'ekickx/clipboard-image.nvim',
       config = function() require('clipboard-image').setup({
@@ -55,7 +53,6 @@ packer.startup(function()
           })
       end
   }
-
     use {
         'wbthomason/packer.nvim',
         opt = false,
@@ -65,6 +62,7 @@ packer.startup(function()
         requires = {
             'kyazdani42/nvim-web-devicons',
         },
+        tag = 'nightly',
         config = function() require('nvim-tree').setup {
                 open_on_setup = true,
                 open_on_tab = false,
@@ -87,31 +85,19 @@ packer.startup(function()
         'folke/tokyonight.nvim',
         branch = 'main',
     }
-  --  use {
-  --  'dinhhuy258/vim-local-history', 
-  --  branch = 'master', 
-  --} -- hitory
-
   use 'ryanoasis/vim-devicons'
   use {
   "folke/which-key.nvim",
   config = function()
     require("which-key").setup {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
     }
   end
   }
   --use 'glepnir/dashboard-nvim'
   use 'hexdigest/gounit-vim'
-  -- UI to select things (files, grep results, open buffers...)
   use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-
-    -- Highlight, edit, and navigate code using a fast incremental parsing library
   use 'nvim-treesitter/nvim-treesitter' 
-  -- Additional textobjects for treesitter
   use 'nvim-treesitter/nvim-treesitter-textobjects'
   use 'neovim/nvim-lspconfig' -- Collection of configurations for built-in LSP client
   use 'williamboman/nvim-lsp-installer' -- auto install  :LspInstall
@@ -120,10 +106,7 @@ packer.startup(function()
     'weilbith/nvim-code-action-menu',
     cmd = 'CodeActionMenu',
   })
-
   use 'brooth/far.vim' -- search and replace plugin
-
-  -- cmp config
   use({
   "hrsh7th/nvim-cmp",
   requires = {
@@ -136,14 +119,10 @@ packer.startup(function()
       end,
     },
   }
-}) -- Autocompletion plugin
-
+})
   use 'saadparwaiz1/cmp_luasnip'
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
-  --use 'onsails/lspkind.nvim'
   use "rafamadriz/friendly-snippets"
-
-  -- cmp extensions
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
@@ -163,17 +142,11 @@ packer.startup(function()
   use 'pontusk/cmp-vimwiki-tags'
   use 'KadoBOT/cmp-plugins'
   use 'octaltree/cmp-look'
-
-  -- cmp fuzzy buffer
   use {'romgrk/fzy-lua-native', run = 'make'}
   use {'tzachar/cmp-fuzzy-buffer', requires = {'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim'}}
   use {'tzachar/cmp-fuzzy-path', requires = {'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim'}}
-
-  -- cmp zsh 
   use 'tamago324/cmp-zsh'
-  use 'Shougo/deol.nvim' --     " recommended to use together.
-
-
+  use 'Shougo/deol.nvim'
 -- dap is nvim debugger
   use 'leoluz/nvim-dap-go'
   use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
@@ -181,6 +154,4 @@ packer.startup(function()
   use 'theHamsta/nvim-dap-virtual-text'
   use 'rcarriga/cmp-dap'
   use 'nvim-telescope/telescope-dap.nvim'
-
-  use 'rcarriga/nvim-notify'
 end)

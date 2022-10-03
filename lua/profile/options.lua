@@ -258,19 +258,24 @@ require('telescope').setup {
 }
 
 --Add leader shortcuts
-vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers)
-vim.keymap.set('n', '<leader>sf', function()
-  require('telescope.builtin').find_files { previewer = false }
-end)
-vim.keymap.set('n', '<leader>sb', require('telescope.builtin').current_buffer_fuzzy_find)
-vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags)
-vim.keymap.set('n', '<leader>st', require('telescope.builtin').tags)
-vim.keymap.set('n', '<leader>sd', require('telescope.builtin').grep_string)
-vim.keymap.set('n', '<leader>sp', require('telescope.builtin').live_grep)
-vim.keymap.set('n', '<leader>so', function()
-  require('telescope.builtin').tags { only_current_buffer = true }
-end)
-vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles)
+--vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers)
+--vim.keymap.set('n', '<leader>sf', function()
+--  require('telescope.builtin').find_files { previewer = false }
+--end)
+--vim.keymap.set('n', '<leader>sb', require('telescope.builtin').current_buffer_fuzzy_find)
+--vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags)
+--vim.keymap.set('n', '<leader>st', require('telescope.builtin').tags)
+--vim.keymap.set('n', '<leader>sd', require('telescope.builtin').grep_string)
+--vim.keymap.set('n', '<leader>sp', require('telescope.builtin').live_grep)
+--vim.keymap.set('n', '<leader>so', function()
+--  require('telescope.builtin').tags { only_current_buffer = true }
+--end)
+--vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles)
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', 'ff', builtin.find_files, {})
+vim.keymap.set('n', 'fg', builtin.live_grep, {})
+vim.keymap.set('n', 'fb', builtin.buffers, {})
+vim.keymap.set('n', 'fh', builtin.help_tags, {})
 --
 -- LSP settings
 
@@ -404,7 +409,7 @@ local servers = {
   "quick_lint_js",
   --"r_language_server",
   "rust_analyzer",
-  "solang",
+  --"solang",
   "solidity_ls",
   "sqls",
   "terraform_lsp",
@@ -574,7 +579,7 @@ cmp.setup({
         model = "EleutherAI/gpt-neo-2.7B", -- check code clippy vscode repo for options
         key = "", -- huggingface.co api key
       }
-    },    
+    },
     { name = 'emoji' },
     { name = 'nvim_lua' },
     { name = 'treesitter' },
@@ -656,6 +661,23 @@ cmp.setup({
       end
     end, {'i', 's'}),
   },
+})
+-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline('/', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' }
+  }
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  })
 })
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float)
