@@ -184,6 +184,8 @@ keymap('n', '<leader>dl', '<cmd>lua require"telescope".extensions.dap.list_break
 keymap('n', '<leader>dv', '<cmd>lua require"telescope".extensions.dap.variables{}<CR>', opts)
 keymap('n', '<leader>df', '<cmd>lua require"telescope".extensions.dap.frames{}<CR>', opts)
 
+keymap('n', '<C-g>', ':LazyGit<CR>', opts)
+
 -- local hitory
 --keymap('n', '<F3>', ':LocalHistoryToggle<CR>', opts)
 

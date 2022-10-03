@@ -23,13 +23,13 @@ packer.startup(function()
       requires = {'kyazdani42/nvim-web-devicons'}
     }
     use 'Yggdroot/indentLine'
-    use 'tpope/vim-fugitive'
+    --use 'tpope/vim-fugitive'
     use  'kdheepak/lazygit.nvim'
-    use {'akinsho/git-conflict.nvim', tag = "*", config = function()
-      require('git-conflict').setup()
-    end}
+    --use {'akinsho/git-conflict.nvim', tag = "*", config = function()
+    --  require('git-conflict').setup()
+    --end}
     use 'jiangmiao/auto-pairs'
-    use 'airblade/vim-gitgutter'
+    --use 'airblade/vim-gitgutter'
     use 'maxboisvert/vim-simple-complete'
     use 'NLKNguyen/papercolor-theme'
     use 'glepnir/galaxyline.nvim'
