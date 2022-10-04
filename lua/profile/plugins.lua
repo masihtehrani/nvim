@@ -27,7 +27,6 @@ packer.startup(function()
     use {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-      "neovim/nvim-lspconfig",
     }
   use {
   "folke/trouble.nvim",
@@ -41,7 +40,7 @@ packer.startup(function()
   end
   }
     use 'Yggdroot/indentLine'
-    --use 'tpope/vim-fugitive'
+    use 'tpope/vim-fugitive'
     use  'kdheepak/lazygit.nvim'
     --use {'akinsho/git-conflict.nvim', tag = "*", config = function()
     --  require('git-conflict').setup()
@@ -160,7 +159,6 @@ packer.startup(function()
   use 'pontusk/cmp-vimwiki-tags'
   use 'KadoBOT/cmp-plugins'
   use 'octaltree/cmp-look'
-  use {'romgrk/fzy-lua-native', run = 'make'}
   use {'tzachar/cmp-fuzzy-buffer', requires = {'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim'}}
   use {'tzachar/cmp-fuzzy-path', requires = {'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim'}}
   use 'tamago324/cmp-zsh'
