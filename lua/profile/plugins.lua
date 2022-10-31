@@ -170,4 +170,5 @@ packer.startup(function()
   use 'theHamsta/nvim-dap-virtual-text'
   use 'rcarriga/cmp-dap'
   use 'nvim-telescope/telescope-dap.nvim'
+  use 'mattn/emmet-vim'
 end)
