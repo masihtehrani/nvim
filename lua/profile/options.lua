@@ -802,6 +802,19 @@ require('dap-go').setup()
     } 
 }
 
+require('dap-python').setup('~/.virtualenvs/debugpy/bin/python')
+local test_runners = require('dap-python').test_runners
+
+-- `test_runners` is a table. The keys are the runner names like `unittest` or `pytest`.
+-- The value is a function that takes three arguments:
+-- The classname, a methodname and the opts
+-- (The `opts` are coming passed through from either `test_method` or `test_class`)
+-- The function must return a module name and the arguments passed to the module as list.
+test_runners.your_runner = function(classname, methodname, opts)
+  local args = {classname, methodname}
+  return 'modulename', args
+end
+
 require("nvim-dap-virtual-text").setup {
     enabled = true,                        -- enable this plugin (the default)
     enabled_commands = true,               -- create commands DapVirtualTextEnable, DapVirtualTextDisable, DapVirtualTextToggle, (DapVirtualTextForceRefresh for refreshing when debug adapter did not notify its termination)
