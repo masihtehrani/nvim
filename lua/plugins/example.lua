@@ -58,7 +58,7 @@ return {
       gemini = {
         model = "gemini-2.5-flash-preview-04-17",
         timeout = 30000,
-        temperature = 1, -- برای پاسخ‌های دقیق‌تر
+        temperature = 0.7, -- برای پاسخ‌های دقیق‌تر
         max_tokens = 8192,
       },
       behaviour = {
@@ -564,23 +564,23 @@ return {
     cmd = {"GosignsEnable", "GosignsDisable", "GosignsToggle"},
     opts = {}, -- for default options. Refer to the configuration section for custom setup.
   },
-{
+  {
     "fredrikaverpil/godoc.nvim",
     version = "*",
     dependencies = {
-        { "nvim-telescope/telescope.nvim" }, -- optional
-        { "folke/snacks.nvim" }, -- optional
-        { "echasnovski/mini.pick" }, -- optional
-        { "ibhagwan/fzf-lua" }, -- optional
-        {
-            "nvim-treesitter/nvim-treesitter",
-            opts = {
-              ensure_installed = { "go" },
-            },
-        },
+      { "nvim-telescope/telescope.nvim" }, -- optional
+      { "folke/snacks.nvim" }, -- optional
+      { "echasnovski/mini.pick" }, -- optional
+      { "ibhagwan/fzf-lua" }, -- optional
+      {
+          "nvim-treesitter/nvim-treesitter",
+          opts = {
+            ensure_installed = { "go" },
+          },
+      },
     },
     build = "go install github.com/lotusirous/gostdsym/stdsym@latest", -- optional
     cmd = { "GoDoc" }, -- optional
     opts = {}, -- see further down below for configuration
-},
+  },
 }
