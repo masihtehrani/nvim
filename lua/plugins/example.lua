@@ -133,6 +133,7 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
+    "Yu-Leo/cmp-go-pkgs",
       {
       "garymjr/nvim-snippets",
       opts = {
@@ -519,4 +520,67 @@ return {
     require('gemini').setup()
   end
   },
+  {
+	'crusj/structrue-go.nvim',
+    branch = "main"
+  },
+  {
+		'edolphin-ydf/goimpl.nvim',
+		requires = {
+			{'nvim-lua/plenary.nvim'},
+			{'nvim-lua/popup.nvim'},
+			{'nvim-telescope/telescope.nvim'},
+			{'nvim-treesitter/nvim-treesitter'},
+		},
+		config = function()
+			require'telescope'.load_extension'goimpl'
+		end,
+	},
+  {
+  "olexsmir/gopher.nvim",
+  ft = "go",
+  -- branch = "develop"
+  -- (optional) will update plugin's deps on every update
+  build = function()
+    vim.cmd.GoInstallDeps()
+  end,
+  ---@type gopher.Config
+  opts = {},
+  },
+  {
+	'crusj/hierarchy-tree-go.nvim',
+	requires= 'neovim/nvim-lspconfig'
+  },
+  {
+  "yanskun/gotests.nvim",
+  ft = "go",
+  config = function()
+    require("gotests").setup()
+  end,
+  },
+  {
+    "Yu-Leo/gosigns.nvim",
+    ft = "go",
+    cmd = {"GosignsEnable", "GosignsDisable", "GosignsToggle"},
+    opts = {}, -- for default options. Refer to the configuration section for custom setup.
+  },
+{
+    "fredrikaverpil/godoc.nvim",
+    version = "*",
+    dependencies = {
+        { "nvim-telescope/telescope.nvim" }, -- optional
+        { "folke/snacks.nvim" }, -- optional
+        { "echasnovski/mini.pick" }, -- optional
+        { "ibhagwan/fzf-lua" }, -- optional
+        {
+            "nvim-treesitter/nvim-treesitter",
+            opts = {
+              ensure_installed = { "go" },
+            },
+        },
+    },
+    build = "go install github.com/lotusirous/gostdsym/stdsym@latest", -- optional
+    cmd = { "GoDoc" }, -- optional
+    opts = {}, -- see further down below for configuration
+},
 }
