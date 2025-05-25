@@ -514,12 +514,12 @@ return {
     ft = { "go", "gomod" },
     build = ':lua require("go.install").update_all_sync()',
   },
-  {
-  'kiddos/gemini.nvim',
-  config = function()
-    require('gemini').setup()
-  end
-  },
+  -- {
+  -- 'kiddos/gemini.nvim',
+  -- config = function()
+  --   require('gemini').setup()
+  -- end
+  -- },
   {
 	'crusj/structrue-go.nvim',
     branch = "main"
@@ -582,5 +582,22 @@ return {
     build = "go install github.com/lotusirous/gostdsym/stdsym@latest", -- optional
     cmd = { "GoDoc" }, -- optional
     opts = {}, -- see further down below for configuration
+  },
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    cmd = "LazyDev",
+    opts = {
+      library = {
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        { path = "LazyVim", words = { "LazyVim" } },
+        { path = "snacks.nvim", words = { "Snacks" } },
+        { path = "lazy.nvim", words = { "LazyVim" } },
+      },
+    },
+  },
+  {
+  'Exafunction/windsurf.vim',
+  event = 'BufEnter'
   },
 }
