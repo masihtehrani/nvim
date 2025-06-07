@@ -49,46 +49,46 @@ return {
   { import = "lazyvim.plugins.extras.lang.rust" },
 
   -- Custom plugins and configurations
-  {
-    "yetone/avante.nvim",
-    event = "VeryLazy",
-    lazy = false,
-    version = false,
-    opts = {
-      provider = "gemini",
+{
+  "yetone/avante.nvim",
+  event = "VeryLazy",
+  lazy = false,
+  version = false,
+  opts = {
+    provider = "gemini", -- مشخص کردن ارائه‌دهنده
+    providers = { -- بخش جدید برای تنظیمات ارائه‌دهندگان
       gemini = {
         model = "gemini-2.5-flash-preview-04-17",
-        -- model = "gemini-2.5-pro-preview-05-06",
         timeout = 30000,
-        temperature = 0.7, -- برای پاسخ‌های دقیق‌تر
+        temperature = 0.7,
         max_tokens = 8192,
       },
-      behaviour = {
-        auto_suggestions = false,
-        auto_apply = false,
-      },
-      mappings = {
-        ask = "<leader>aa", -- کلید جدا برای پرس‌وجو
-        edit = "<leader>ae", -- کلید جدا برای ویرایش
-        refresh = "<leader>ar",
-      },
     },
-    build = ":AvanteBuild", -- به‌جای make
-    dependencies = {
-      "stevearc/dressing.nvim",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      {
-        "MeanderingProgrammer/render-markdown.nvim",
-        opts = {
-          file_types = { "markdown", "Avante" },
-        },
-        ft = { "markdown", "Avante" },
-      },
-      "nvim-treesitter/nvim-treesitter",
+    behaviour = {
+      auto_suggestions = false,
+      auto_apply = false,
+    },
+    mappings = {
+      ask = "<leader>aa",
+      edit = "<leader>ae",
+      refresh = "<leader>ar",
     },
   },
-
+  build = ":AvanteBuild",
+  dependencies = {
+    "stevearc/dressing.nvim",
+    "nvim-lua/plenary.nvim",
+    "MunifTanjim/nui.nvim",
+    {
+      "MeanderingProgrammer/render-markdown.nvim",
+      opts = {
+        file_types = { "markdown", "Avante" },
+      },
+      ft = { "markdown", "Avante" },
+    },
+    "nvim-treesitter/nvim-treesitter",
+  },
+},
   -- add gruvbox
   { "ellisonleao/gruvbox.nvim" },
 
@@ -782,6 +782,9 @@ return {
         "delve",
         "codelldb",
         "bacon",
+        "rust-analyzer",
+        "pyright",
+        "gopls",
       },
       formatters_by_ft = {
         go = { "goimports", "gofumpt" },
