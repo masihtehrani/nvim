@@ -260,122 +260,6 @@ return {
       },
     },
   },
-
-  -- add pyright to lspconfig
-  {
-    "neovim/nvim-lspconfig",
-    ---@class PluginLspOpts
-    opts = {
-      ---@type lspconfig.options
-      servers = {
-        -- pyright will be automatically installed with mason and loaded with lspconfig
-        pyright = {},
-      },
-    },
-  },
-
-  -- add tsserver and setup with typescript.nvim instead of lspconfig
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      "jose-elias-alvarez/typescript.nvim",
-      init = function()
-        require("lazyvim.util").lsp.on_attach(function(_, buffer)
-          -- stylua: ignore
-          vim.keymap.set("n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
-          vim.keymap.set("n", "<leader>cR", "TypescriptRenameFile", { desc = "Rename File", buffer = buffer })
-        end)
-      end,
-    },
-    ---@class PluginLspOpts
-    opts = {
-      ---@type lspconfig.options
-      servers = {
-        -- tsserver will be automatically installed with mason and loaded with lspconfig
-        tsserver = {},
-        bacon_ls = {
-          enabled = diagnostics == "bacon-ls",
-        },
-      },
-      -- you can do any additional lsp server setup here
-      -- return true if you don't want this server to be setup with lspconfig
-      ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
-      setup = {
-        -- example to setup with typescript.nvim
-        tsserver = function(_, opts)
-          require("typescript").setup({ server = opts })
-          return true
-        end,
-        -- Specify * to use this function as a fallback for any server
-        -- ["*"] = function(server, opts) end,
-      },
-    },
-  },
-  {
-  "neovim/nvim-lspconfig",
-  opts = {
-    servers = {
-      gopls = {
-        settings = {
-          gopls = {
-            gofumpt = true,
-            codelenses = {
-              gc_details = false,
-              generate = true,
-              regenerate_cgo = true,
-              run_govulncheck = true,
-              test = true,
-              tidy = true,
-              upgrade_dependency = true,
-              vendor = true,
-            },
-            hints = {
-              assignVariableTypes = true,
-              compositeLiteralFields = true,
-              compositeLiteralTypes = true,
-              constantValues = true,
-              functionTypeParameters = true,
-              parameterNames = true,
-              rangeVariableTypes = true,
-            },
-            analyses = {
-              nilness = true,
-              unusedparams = true,
-              unusedwrite = true,
-              useany = true,
-            },
-            usePlaceholders = true,
-            completeUnimported = true,
-            staticcheck = true,
-            directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
-            semanticTokens = true,
-          },
-        },
-      },
-    },
-    setup = {
-      gopls = function(_, opts)
-        -- workaround for gopls not supporting semanticTokensProvider
-        -- https://github.com/golang/go/issues/54531#issuecomment-1464982242
-        LazyVim.lsp.on_attach(function(client, _)
-          if not client.server_capabilities.semanticTokensProvider then
-            local semantic = client.config.capabilities.textDocument.semanticTokens
-            client.server_capabilities.semanticTokensProvider = {
-              full = true,
-              legend = {
-                tokenTypes = semantic.tokenTypes,
-                tokenModifiers = semantic.tokenModifiers,
-              },
-              range = true,
-            }
-          end
-        end, "gopls")
-        -- end workaround
-      end,
-    },
-  },
-  },
-
   -- add more treesitter parsers
   {
     "nvim-treesitter/nvim-treesitter",
@@ -673,83 +557,6 @@ return {
     },
   },
   },
-{
-  "mrcjkb/rustaceanvim",
-  version = vim.fn.has("nvim-0.10.0") == 0 and "^4" or false,
-  ft = { "rust" },
-  opts = {
-    server = {
-      on_attach = function(_, bufnr)
-        vim.keymap.set("n", "<leader>cR", function()
-          vim.cmd.RustLsp("codeAction")
-        end, { desc = "Code Action", buffer = bufnr })
-        vim.keymap.set("n", "<leader>dr", function()
-          vim.cmd.RustLsp("debuggables")
-        end, { desc = "Rust Debuggables", buffer = bufnr })
-      end,
-      default_settings = {
-        -- rust-analyzer language server configuration
-        ["rust-analyzer"] = {
-          cargo = {
-            allFeatures = true,
-            loadOutDirsFromCheck = true,
-            buildScripts = {
-              enable = true,
-            },
-          },
-          -- Add clippy lints for Rust if using rust-analyzer
-          checkOnSave = diagnostics == "rust-analyzer",
-          -- Enable diagnostics if using rust-analyzer
-          diagnostics = {
-            enable = diagnostics == "rust-analyzer",
-          },
-          procMacro = {
-            enable = true,
-            ignored = {
-              ["async-trait"] = { "async_trait" },
-              ["napi-derive"] = { "napi" },
-              ["async-recursion"] = { "async_recursion" },
-            },
-          },
-          files = {
-            excludeDirs = {
-              ".direnv",
-              ".git",
-              ".github",
-              ".gitlab",
-              "bin",
-              "node_modules",
-              "target",
-              "venv",
-              ".venv",
-            },
-          },
-        },
-      },
-    },
-  },
-  config = function(_, opts)
-    if LazyVim.has("mason.nvim") then
-      local package_path = require("mason-registry").get_package("codelldb"):get_install_path()
-      local codelldb = package_path .. "/extension/adapter/codelldb"
-      local library_path = package_path .. "/extension/lldb/lib/liblldb.dylib"
-      local uname = io.popen("uname"):read("*l")
-      if uname == "Linux" then
-        library_path = package_path .. "/extension/lldb/lib/liblldb.so"
-      end
-      opts.dap = {
-        adapter = require("rustaceanvim.config").get_codelldb_adapter(codelldb, library_path),
-      }
-    end
-    vim.g.rustaceanvim = vim.tbl_deep_extend("keep", vim.g.rustaceanvim or {}, opts or {})
-    if vim.fn.executable("rust-analyzer") == 0 then
-      LazyVim.error(
-        "**rust-analyzer** not found in PATH, please install it.\nhttps://rust-analyzer.github.io/",
-        { title = "rustaceanvim" }
-      )
-    end
-  end,
-  },
   {
   "nvim-neotest/neotest",
   optional = true,
@@ -891,5 +698,181 @@ return {
   },
   {
     "rouge8/neotest-rust",
+  },
+  {
+  "mrcjkb/rustaceanvim",
+  version = vim.fn.has("nvim-0.10.0") == 0 and "^4" or false,
+  ft = { "rust" },
+  opts = {
+    server = {
+      on_attach = function(client, bufnr)
+        vim.keymap.set("n", "<leader>cR", function()
+          vim.cmd.RustLsp("codeAction")
+        end, { desc = "Code Action", buffer = bufnr })
+        vim.keymap.set("n", "<leader>dr", function()
+          vim.cmd.RustLsp("debuggables")
+        end, { desc = "Rust Debuggables", buffer = bufnr })
+      end,
+      default_settings = {
+        -- rust-analyzer language server configuration
+        ["rust-analyzer"] = {
+          cargo = {
+            allFeatures = true,
+            loadOutDirsFromCheck = true,
+            buildScripts = {
+              enable = true,
+            },
+          },
+          -- فعال‌سازی دیاگنوستیک‌ها به‌صورت پیش‌فرض
+          checkOnSave = true, -- همیشه چک کردن هنگام ذخیره
+          diagnostics = {
+            enable = true, -- اطمینان از فعال بودن دیاگنوستیک
+          },
+          procMacro = {
+            enable = true,
+            ignored = {
+              ["async-trait"] = { "async_trait" },
+              ["napi-derive"] = { "napi" },
+              ["async-recursion"] = { "async_recursion" },
+            },
+          },
+          files = {
+            excludeDirs = {
+              ".direnv",
+              ".git",
+              ".github",
+              ".gitlab",
+              "bin",
+              "node_modules",
+              "target",
+              "venv",
+              ".venv",
+            },
+          },
+        },
+      },
+    },
+  },
+  config = function(_, opts)
+    if LazyVim.has("mason.nvim") then
+      local package_path = require("mason-registry").get_package("codelldb"):get_install_path()
+      local codelldb = package_path .. "/extension/adapter/codelldb"
+      local library_path = package_path .. "/extension/lldb/lib/liblldb.dylib"
+      local uname = io.popen("uname"):read("*l")
+      if uname == "Linux" then
+        library_path = package_path .. "/extension/lldb/lib/liblldb.so"
+      end
+      opts.dap = {
+        adapter = require("rustaceanvim.config").get_codelldb_adapter(codelldb, library_path),
+      }
+    end
+    vim.g.rustaceanvim = vim.tbl_deep_extend("keep", vim.g.rustaceanvim or {}, opts or {})
+    if vim.fn.executable("rust-analyzer") == 0 then
+      LazyVim.error(
+        "**rust-analyzer** not found in PATH, please install it.\nhttps://rust-analyzer.github.io/",
+        { title = "rustaceanvim" }
+      )
+    end
+  end,
+},
+
+{
+  "neovim/nvim-lspconfig",
+  dependencies = {
+    "jose-elias-alvarez/typescript.nvim",
+    init = function()
+      require("lazyvim.util").lsp.on_attach(function(_, buffer)
+        vim.keymap.set("n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
+        vim.keymap.set("n", "<leader>cR", "TypescriptRenameFile", { desc = "Rename File", buffer = buffer })
+      end)
+    end,
+  },
+  opts = {
+    servers = {
+      pyright = {},
+      -- tsserver = {},
+      gopls = {
+        settings = {
+          gopls = {
+            gofumpt = true,
+            codelenses = {
+              gc_details = false,
+              generate = true,
+              regenerate_cgo = true,
+              run_govulncheck = true,
+              test = true,
+              tidy = true,
+              upgrade_dependency = true,
+              vendor = true,
+            },
+            hints = {
+              assignVariableTypes = true,
+              compositeLiteralFields = true,
+              compositeLiteralTypes = true,
+              constantValues = true,
+              functionTypeParameters = true,
+              parameterNames = true,
+              rangeVariableTypes = true,
+            },
+            analyses = {
+              nilness = true,
+              unusedparams = true,
+              unusedwrite = true,
+              useany = true,
+            },
+            usePlaceholders = true,
+            completeUnimported = true,
+            staticcheck = true,
+            directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
+            semanticTokens = true,
+          },
+        },
+      },
+    },
+    setup = {
+      -- tsserver = function(_, opts)
+      --   require("typescript").setup({ server = opts })
+      --   return true
+      -- end,
+      -- ["*"] = function(_, opts)
+      --   LazyVim.lsp.on_attach(function(client, bufnr)
+      --     vim.diagnostic.enable(bufnr, true)
+      --     vim.keymap.set("n", "<leader>ce", vim.diagnostic.open_float, { desc = "Show Error", buffer = bufnr })
+      --     -- تنظیم دیاگنوستیک و هایلایت سفارشی
+      --     vim.diagnostic.config({
+      --       virtual_text = true, -- نمایش متن خطا در کنار کد
+      --       signs = true, -- نمایش آیکون خطا
+      --       underline = true, -- زیر خط کشیدن ارورها
+      --       update_in_insert = false,
+      --       severity_sort = true,
+      --       float = {
+      --         border = "rounded",
+      --         source = "always",
+      --       },
+      --       -- هایلایت قرمز برای ارورها
+      --       highlights = {
+      --         error = { link = "DiagnosticError", default = true },
+      --       },
+      --     })
+      --     -- اطمینان از فعال بودن دیاگنوستیک برای rust-analyzer
+      --     if client.name == "rust_analyzer" then
+      --       client.server_capabilities.diagnosticProvider = true
+      --     end
+      --   end)
+      -- end,
+      gopls = function(_, opts)
+        LazyVim.lsp.on_attach(function(client, _)
+          if not client.server_capabilities.semanticTokensProvider then
+            local semantic = client.config.capabilities.textDocument.semanticTokens
+            client.server_capabilities.semanticTokensProvider = {
+              full = true,
+              legend = { tokenTypes = semantic.tokenTypes, tokenModifiers = semantic.tokenModifiers },
+              range = true,
+            }
+          end
+        end, "gopls")
+      end,
+    },
+  },
   },
 }
