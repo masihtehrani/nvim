@@ -819,6 +819,32 @@ return {
       opts = {},
     },
   },
+  config = function()
+    local dap = require("dap")
+    dap.adapters.go = {
+      type = "server",
+      port = "${port}",
+      executable = {
+        command = "dlv",
+        args = { "dap", "-l", "127.0.0.1:${port}" },
+      },
+    }
+    dap.configurations.go = {
+      {
+        type = "go",
+        name = "Debug",
+        request = "launch",
+        program = "${file}",
+      },
+    }
+    vim.keymap.set("n", "<F5>", dap.continue, { desc = "Continue/Start Debugging" })
+    vim.keymap.set("n", "<S-F5>", dap.terminate, { desc = "Stop Debugging" })
+    vim.keymap.set("n", "<F10>", dap.step_over, { desc = "Step Over" })
+    vim.keymap.set("n", "<F11>", dap.step_into, { desc = "Step Into" })
+    vim.keymap.set("n", "<S-F11>", dap.step_out, { desc = "Step Out" })
+    vim.keymap.set("n", "<F9>", dap.toggle_breakpoint, { desc = "Toggle Breakpoint" })
+    vim.keymap.set("n", "<leader>dr", dap.repl.open, { desc = "Open REPL" })
+  end,
   },
   {
     "simrat39/rust-tools.nvim",
