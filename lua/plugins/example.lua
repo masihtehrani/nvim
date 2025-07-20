@@ -58,7 +58,7 @@ return {
     provider = "gemini", -- مشخص کردن ارائه‌دهنده
     providers = { -- بخش جدید برای تنظیمات ارائه‌دهندگان
       gemini = {
-        model = "gemini-2.5-flash-preview-04-17",
+        model = "gemini-2.5-flash",
         timeout = 30000,
         temperature = 0.7,
         max_tokens = 8192,
@@ -337,7 +337,7 @@ return {
   --       provider = "gemini",
   --       provider_options = {
   --         gemini = {
-  --           model = "gemini-2.5-flash-preview-04-17",
+  --           model = "gemini-2.5-flash",
   --           api_key = vim.env.GEMINI_API_KEY,
   --           stream = true,
   --           timeout = 30000,
